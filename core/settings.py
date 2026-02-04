@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from django_mongodb_backend.fields import ObjectIdAutoField
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'impact',
+    'django_mongodb_backend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,8 +77,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django_mongodb_backend',
+        'NAME': 'Smile',  # This will create a 'Smile' database in your cluster
+        'HOST': 'mongodb+srv://benaiahrhema123_db_user:2504%402005ben2@smile.omn6pku.mongodb.net/?appName=Smile',
     }
 }
 
@@ -115,3 +119,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_AUTO_FIELD = 'django_mongodb_backend.fields.ObjectIdAutoField'
+SILENCED_SYSTEM_CHECKS = ["mongodb.E001"]
+# The "Lazy" fix - add this to the very bottom of settings.py
+SILENCED_SYSTEM_CHECKS = ["mongodb.E001"]
+
+class NoLoginUpdate:
+    def __init__(self, get_response):
+        self.get_response = get_response
+    def __call__(self, request):
+        from django.contrib.auth.signals import user_logged_in
+        from django.contrib.auth.models import update_last_login
+        user_logged_in.disconnect(update_last_login)
+        return self.get_response(request)
+
+# Add 'core.settings.NoLoginUpdate' to the top of your MIDDLEWARE list in settings.py
