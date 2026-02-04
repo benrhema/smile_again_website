@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'core.settings.NoLoginUpdate',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'impact' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,3 +138,9 @@ class NoLoginUpdate:
         return self.get_response(request)
 
 # Add 'core.settings.NoLoginUpdate' to the top of your MIDDLEWARE list in settings.py
+
+from django.db.models.signals import post_migrate
+from django.contrib.auth.management import create_permissions
+
+# This prevents the "unhashable" error during the final phase of migration
+post_migrate.disconnect(create_permissions, dispatch_uid="django.contrib.auth.management.create_permissions")
