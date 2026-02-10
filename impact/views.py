@@ -1,21 +1,8 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth.models import User
+from django.shortcuts import render
+from .models import Division
 
-# THIS IS THE MISSING PIECE:
 def home(request):
-    return render(request, 'home.html')
-
-def force_login(request):
-    try:
-        user = User.objects.get(username='admin')
-        old_save = User.save
-        User.save = lambda *args, **kwargs: None 
-        try:
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        finally:
-            User.save = old_save
-        return redirect('/admin/')
-    except User.DoesNotExist:
-        # If admin doesn't exist, just go home
-        return redirect('/')
+    # Fetch all data from the database
+    divisions = Division.objects.all()
+    # Send it to the template
+    return render(request, 'home.html', {'divisions': divisions})

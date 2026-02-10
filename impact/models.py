@@ -1,10 +1,7 @@
 from django.db import models
 
-# Create your models here.
-from django_mongodb_backend.fields import ObjectIdAutoField
-
 class Division(models.Model):
-    id = ObjectIdAutoField(primary_key=True)
+    # Standard Django ID (works perfectly with SQLite)
     title = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to='divisions/', blank=True, null=True)

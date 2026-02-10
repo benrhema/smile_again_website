@@ -10,30 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
-from django_mongodb_backend.fields import ObjectIdAutoField
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$9!bhe%bxz8o485v&7cx&_&46p@en7^s=o9egqh6&-5otnx^*+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
+# 1. Cleaned up Apps (Removed MongoDB backend)
 INSTALLED_APPS = [
     'impact',
-    'django_mongodb_backend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,8 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# 2. Cleaned up Middleware
 MIDDLEWARE = [
-    'core.settings.NoLoginUpdate',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,75 +62,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# 3. Pure SQLite Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django_mongodb_backend',
-        'NAME': 'Smile',  # This will create a 'Smile' database in your cluster
-        'HOST': 'mongodb+srv://benaiahrhema123_db_user:2504%402005ben2@smile.omn6pku.mongodb.net/?appName=Smile',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
 STATIC_URL = 'static/'
-import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_AUTO_FIELD = 'django_mongodb_backend.fields.ObjectIdAutoField'
-SILENCED_SYSTEM_CHECKS = ["mongodb.E001"]
-# The "Lazy" fix - add this to the very bottom of settings.py
-SILENCED_SYSTEM_CHECKS = ["mongodb.E001"]
 
-class NoLoginUpdate:
-    def __init__(self, get_response):
-        self.get_response = get_response
-    def __call__(self, request):
-        from django.contrib.auth.signals import user_logged_in
-        from django.contrib.auth.models import update_last_login
-        user_logged_in.disconnect(update_last_login)
-        return self.get_response(request)
-
-# Add 'core.settings.NoLoginUpdate' to the top of your MIDDLEWARE list in settings.py
-
-from django.db.models.signals import post_migrate
-from django.contrib.auth.management import create_permissions
-
-# This prevents the "unhashable" error during the final phase of migration
-post_migrate.disconnect(create_permissions, dispatch_uid="django.contrib.auth.management.create_permissions")
+# 4. Standard Django Auto Field (CRITICAL)
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
