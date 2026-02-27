@@ -1,21 +1,26 @@
 from django.shortcuts import render
-from .models import Division
+from .models import Division, TeamMember, Partner, GalleryItem
 
 def home(request):
-    # Fetch all data from the database
-    divisions = Division.objects.all()
-    # Send it to the template
+    divisions = Division.objects.all().order_by('order')
     return render(request, 'home.html', {'divisions': divisions})
 
 def team(request):
-    # This renders the Our Team page
-    return render(request, 'team.html')
+    leadership = TeamMember.objects.filter(category='LEADERSHIP')
+    staff = TeamMember.objects.filter(category='CORE')
+    return render(request, 'team.html', {'leadership': leadership, 'staff': staff})
 
 def partners(request):
-    # This renders the Our Partners page
-    return render(request, 'partners.html')
+    partners = Partner.objects.all()
+    # You can also send counts to make those yellow boxes dynamic!
+    stats = {
+        'corp': Partner.objects.filter(category='CORPORATE').count(),
+        'ngo': Partner.objects.filter(category='NGO').count(),
+        'govt': Partner.objects.filter(category='GOVT').count(),
+    }
+    return render(request, 'partners.html', {'partners': partners, 'stats': stats})
 
 def media(request):
-    # This renders the Media Gallery page
-    return render(request, 'media.html')
-
+    featured = GalleryItem.objects.filter(is_featured=True).first()
+    items = GalleryItem.objects.filter(is_featured=False).order_by('-created_at')
+    return render(request, 'media.html', {'featured': featured, 'items': items})

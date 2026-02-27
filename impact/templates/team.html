@@ -8,40 +8,48 @@
     
     <h2 class="text-3xl font-black uppercase italic mb-10 border-l-4 border-yellow-400 pl-4">LEADERSHIP <span class="yellow-brand">TEAM</span></h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-32">
+        {% for member in leadership %}
         <div class="bg-[#111] border border-white/5 flex flex-col md:flex-row overflow-hidden group hover:border-yellow-400 transition">
-            <div class="w-full md:w-1/3 h-64 md:h-auto bg-gray-900"></div>
+            <div class="w-full md:w-1/3 h-64 md:h-auto bg-gray-900">
+                {% if member.image %}
+                    <img src="{{ member.image.url }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-gray-700 font-black text-4xl">
+                        {{ member.initials }}
+                    </div>
+                {% endif %}
+            </div>
+            
             <div class="p-10 w-full md:w-2/3">
-                <h3 class="text-2xl font-black uppercase italic">Founder & President</h3>
-                <p class="yellow-brand text-[10px] font-bold tracking-[0.2em] uppercase mb-4">LEADERSHIP</p>
-                <p class="text-gray-400 text-sm leading-relaxed">Leading SAO with a vision of radical compassion and systemic community change.</p>
+                <h3 class="text-2xl font-black uppercase italic">{{ member.name }}</h3>
+                <p class="yellow-brand text-[10px] font-bold tracking-[0.2em] uppercase mb-4">{{ member.role_title }}</p>
+                <p class="text-gray-400 text-sm leading-relaxed">{{ member.bio }}</p>
             </div>
         </div>
-        <div class="bg-[#111] border border-white/5 flex flex-col md:flex-row overflow-hidden group hover:border-yellow-400 transition">
-            <div class="w-full md:w-1/3 h-64 md:h-auto bg-gray-900"></div>
-            <div class="p-10 w-full md:w-2/3">
-                <h3 class="text-2xl font-black uppercase italic">Michael Chen</h3>
-                <p class="yellow-brand text-[10px] font-bold tracking-[0.2em] uppercase mb-4">EXECUTIVE DIRECTOR</p>
-                <p class="text-gray-400 text-sm leading-relaxed">Michael leads our operational strategy and global outreach programs.</p>
-            </div>
-        </div>
+        {% empty %}
+        <p class="text-gray-600 italic">No leadership members added yet.</p>
+        {% endfor %}
     </div>
 
     <h2 class="text-3xl font-black uppercase italic mb-10 border-l-4 border-yellow-400 pl-4">CORE <span class="yellow-brand">STAFF</span></h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for member in staff %}
         <div class="bg-[#111] border border-white/5 p-8 flex items-center gap-6 group hover:border-yellow-400 transition">
-            <div class="w-16 h-16 bg-yellow-brand flex items-center justify-center text-black font-black text-2xl">EM</div>
+            {% if member.image %}
+                <img src="{{ member.image.url }}" class="w-16 h-16 rounded-full object-cover">
+            {% else %}
+                <div class="w-16 h-16 bg-yellow-brand flex items-center justify-center text-black font-black text-2xl">
+                    {{ member.initials }}
+                </div>
+            {% endif %}
             <div>
-                <h4 class="font-bold uppercase italic">Emily Martinez</h4>
-                <p class="yellow-brand text-[10px] font-bold uppercase tracking-widest">Education Manager</p>
+                <h4 class="font-bold uppercase italic">{{ member.name }}</h4>
+                <p class="yellow-brand text-[10px] font-bold uppercase tracking-widest">{{ member.role_title }}</p>
             </div>
         </div>
-        <div class="bg-[#111] border border-white/5 p-8 flex items-center gap-6 group hover:border-yellow-400 transition">
-            <div class="w-16 h-16 bg-yellow-brand flex items-center justify-center text-black font-black text-2xl">KN</div>
-            <div>
-                <h4 class="font-bold uppercase italic">Kevin Nguyen</h4>
-                <p class="yellow-brand text-[10px] font-bold uppercase tracking-widest">Healthcare Lead</p>
-            </div>
-        </div>
+        {% empty %}
+        <p class="text-gray-600 italic">No staff members added yet.</p>
+        {% endfor %}
     </div>
 </main>
 {% endblock %}

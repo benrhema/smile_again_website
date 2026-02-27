@@ -2,8 +2,20 @@
 
 {% block extra_css %}
 <style>
-    #splash-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    #hero-content, #global-nav { opacity: 0; }
+    /* Ensures the splash screen covers everything and the hero stays hidden initially */
+    #splash-screen { 
+        position: fixed; 
+        inset: 0; 
+        background: #000; 
+        z-index: 9999; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+    }
+    #hero-content, #global-nav, #programs-section { 
+        opacity: 0; 
+    }
 </style>
 {% endblock %}
 
@@ -21,17 +33,56 @@
         Sustainable community development through innovation and compassion for those who need it most.
     </p>
     <div class="mt-12 flex gap-6">
-        <button class="bg-yellow-brand text-black px-12 py-4 font-black uppercase text-sm">Discover Our Mission</button>
+        <button class="bg-yellow-brand text-black px-12 py-4 font-black uppercase text-sm hover:bg-white transition-colors">
+            Discover Our Mission
+        </button>
     </div>
 </main>
+
+<section id="programs-section" class="px-8 md:px-20 py-32 bg-[#0a0a0a]">
+    <div class="flex items-center gap-4 mb-16">
+        <div class="h-px w-20 bg-yellow-400"></div>
+        <h2 class="text-3xl font-black uppercase italic">EMPOWERING <span class="yellow-brand">PROGRAMS</span></h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {% for division in divisions %}
+        <div class="border border-white/10 p-10 hover:border-yellow-400 transition-all duration-500 group">
+            <div class="yellow-brand text-4xl mb-6">
+                <i class="fas fa-{{ division.icon_name }}"></i> 
+            </div>
+            <h3 class="text-2xl font-black uppercase italic mb-4">{{ division.title }}</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-8">
+                {{ division.description }}
+            </p>
+            <a href="{% url 'programs' %}" class="text-[10px] font-bold tracking-[0.2em] uppercase border-b border-yellow-400 pb-1 hover:text-yellow-400 transition-colors">
+                Learn More
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-span-full py-20 border border-dashed border-white/10 text-center">
+            <p class="text-gray-600 italic">Our programs are currently being updated in the Admin panel. Check back shortly!</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}
 
 {% block extra_js %}
 <script>
+    // GSAP Animation Sequence
     const tl = gsap.timeline();
+    
     tl.to("#splash-logo", { scale: 1, duration: 1, ease: "back.out(1.7)" })
       .to("#splash-line", { width: "200px", duration: 0.8, ease: "power2.inOut" })
       .to("#splash-screen", { y: "-100%", duration: 1, ease: "power4.inOut", delay: 1 })
-      .to("#global-nav, #hero-content", { opacity: 1, y: -20, duration: 1, stagger: 0.3 }, "-=0.5");
+      // Fade in the Nav, Hero, and Programs section together
+      .to("#global-nav, #hero-content, #programs-section", { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1, 
+          stagger: 0.2,
+          ease: "power2.out" 
+      }, "-=0.5");
 </script>
 {% endblock %}
