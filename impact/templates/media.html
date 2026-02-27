@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Media Gallery | SAO{% endblock %}
+
+{% block content %}
+<main class="relative z-10 px-8 md:px-20 py-24">
+    <h1 class="text-7xl md:text-8xl font-black uppercase italic tracking-tighter mb-12">MEDIA <span class="yellow-brand">GALLERY</span></h1>
+    
+    <div class="flex gap-4 mb-16 overflow-x-auto pb-4">
+        <button class="bg-yellow-brand text-black px-8 py-2 font-black uppercase text-[10px]">All Media</button>
+        <button class="border border-white/10 px-8 py-2 font-black uppercase text-[10px] hover:border-yellow-400 transition">Impact Stories</button>
+        <button class="border border-white/10 px-8 py-2 font-black uppercase text-[10px] hover:border-yellow-400 transition">Events</button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 bg-[#080808] border border-white/5 overflow-hidden mb-24 group">
+        <div class="h-96 bg-gray-900 relative flex items-center justify-center">
+            <div class="w-20 h-20 bg-yellow-brand rounded-full flex items-center justify-center text-black text-2xl pl-1 group-hover:scale-110 transition">▶</div>
+        </div>
+        <div class="p-16 flex flex-col justify-center">
+            <span class="yellow-brand font-bold text-xs uppercase tracking-[0.4em] mb-4">Latest Story</span>
+            <h2 class="text-5xl font-black uppercase italic leading-tight">Transformation In <br>2025</h2>
+            <p class="text-gray-400 mt-6 mb-10 font-light">Watch how our community-led initiatives are changing lives across the region.</p>
+            <button class="bg-yellow-brand text-black px-10 py-4 font-black uppercase text-sm self-start">Watch Film</button>
+        </div>
+    </div>
+</main>
+{% endblock %}

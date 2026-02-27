@@ -1,111 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smile Again Foundation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+{% extends 'base.html' %}
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
-        
-        body, html { 
-            background-color: #000000 !important; 
-            margin: 0; padding: 0; 
-            font-family: 'Inter', sans-serif;
-            color: white;
-            overflow-x: hidden;
-        }
+{% block extra_css %}
+<style>
+    #splash-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    #hero-content, #global-nav { opacity: 0; }
+</style>
+{% endblock %}
 
-        #particles-js {
-            position: fixed; width: 100%; height: 100%;
-            z-index: 1; background-color: #000000;
-        }
+{% block content %}
+<div id="splash-screen">
+    <div id="splash-logo" class="text-8xl font-black yellow-brand italic scale-0">SAO</div>
+    <div id="splash-line" class="w-0 h-1 bg-yellow-brand mt-4"></div>
+</div>
 
-        .yellow-brand { color: #FACC15 !important; }
-        .bg-yellow-brand { background-color: #FACC15 !important; }
-
-        #splash {
-            position: fixed; inset: 0; width: 100%; height: 100%;
-            background: #000000; z-index: 999;
-            display: flex; justify-content: center; align-items: center;
-        }
-    </style>
-</head>
-<body>
-
-    <div id="splash">
-        <div class="text-center">
-            <h1 id="splash-logo" class="text-6xl font-black tracking-tighter yellow-brand opacity-0">SMILE AGAIN</h1>
-            <div id="splash-bar" class="w-0 h-2 bg-yellow-brand mt-4 mx-auto"></div>
-        </div>
+<main id="hero-content" class="relative z-10 min-h-screen px-8 md:px-20 py-24 flex flex-col justify-center">
+    <h1 class="text-7xl md:text-9xl font-black italic uppercase tracking-tighter leading-none">
+        Empowering <br><span class="yellow-brand">Lives.</span>
+    </h1>
+    <p class="mt-10 text-gray-400 max-w-xl text-lg font-light leading-relaxed">
+        Sustainable community development through innovation and compassion for those who need it most.
+    </p>
+    <div class="mt-12 flex gap-6">
+        <button class="bg-yellow-brand text-black px-12 py-4 font-black uppercase text-sm">Discover Our Mission</button>
     </div>
+</main>
+{% endblock %}
 
-    <div id="particles-js"></div>
-
-    <main id="main-content" class="relative z-10 opacity-0">
-        <nav class="flex justify-between items-center p-10">
-            <div class="text-3xl font-black yellow-brand tracking-tighter">SA.</div>
-            <button class="bg-yellow-brand text-black px-6 py-2 font-black uppercase text-xs tracking-widest">Support Us</button>
-        </nav>
-
-        <section class="min-h-screen flex flex-col justify-center px-10 md:px-32">
-            <h2 id="hero-text" class="text-7xl md:text-9xl font-black leading-none uppercase italic">
-                BE THE <br><span class="yellow-brand">CHANGE.</span>
-            </h2>
-            <p class="mt-6 text-xl text-gray-400 max-w-2xl font-light">
-                Empowering communities through Education, Healthcare, and Sustainable Development.
-            </p>
-        </section>
-
-        <section class="py-20 px-10 md:px-32 bg-black/50">
-            <h3 class="text-4xl font-black mb-12 uppercase italic tracking-tighter">Our <span class="yellow-brand">Impact</span></h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                {% for div in divisions %}
-                <div class="border-l-4 border-yellow-400 p-6 bg-white/5 hover:bg-white/10 transition-all group">
-                    {% if div.image %}
-                        <img src="{{ div.image.url }}" class="w-full h-48 object-cover mb-4 grayscale group-hover:grayscale-0 transition-all" alt="{{ div.title }}">
-                    {% endif %}
-                    <h4 class="text-2xl font-black yellow-brand uppercase">{{ div.title }}</h4>
-                    <p class="text-gray-400 mt-2 font-light">{{ div.description }}</p>
-                    <div class="mt-4 pt-4 border-t border-white/10">
-                        <span class="text-xs uppercase tracking-widest text-gray-500">Goal Amount</span>
-                        <p class="text-xl font-bold">${{ div.goal_amount }}</p>
-                    </div>
-                </div>
-                {% empty %}
-                <p class="text-gray-500 italic">No divisions added yet. Visit the Admin panel to add your first impact area!</p>
-                {% endfor %}
-            </div>
-        </section>
-    </main>
-
-    <script>
-        const tl = gsap.timeline();
-        tl.to("#splash-logo", { opacity: 1, y: -20, duration: 1 })
-          .to("#splash-bar", { width: "100%", duration: 0.8 })
-          .to("#splash", { y: "-100%", duration: 1.2, ease: "expo.inOut", delay: 0.5 })
-          .to("#main-content", { opacity: 1, duration: 1 }, "-=0.5")
-          .from("#hero-text", { x: -100, opacity: 0, duration: 1, ease: "power4.out" }, "-=0.5");
-
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 180, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#FACC15" }, 
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.6, "random": true },
-                "size": { "value": 3.5, "random": true },
-                "line_linked": { "enable": true, "distance": 100, "color": "#FACC15", "opacity": 0.15, "width": 0.5 },
-                "move": { "enable": true, "speed": 1.2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
-            },
-            "interactivity": {
-                "events": { "onhover": { "enable": true, "mode": "bubble" } },
-                "modes": { "bubble": { "size": 4, "distance": 100, "duration": 2, "opacity": 0.8 } }
-            }
-        });
-    </script>
-</body>
-</html>
+{% block extra_js %}
+<script>
+    const tl = gsap.timeline();
+    tl.to("#splash-logo", { scale: 1, duration: 1, ease: "back.out(1.7)" })
+      .to("#splash-line", { width: "200px", duration: 0.8, ease: "power2.inOut" })
+      .to("#splash-screen", { y: "-100%", duration: 1, ease: "power4.inOut", delay: 1 })
+      .to("#global-nav, #hero-content", { opacity: 1, y: -20, duration: 1, stagger: 0.3 }, "-=0.5");
+</script>
+{% endblock %}

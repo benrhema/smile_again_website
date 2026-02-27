@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Partners | SAO{% endblock %}
+
+{% block content %}
+<main class="relative z-10 px-8 md:px-20 py-24">
+    <h1 class="text-7xl md:text-8xl font-black uppercase italic tracking-tighter mb-16">OUR <span class="yellow-brand">PARTNERS</span></h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
+        <div class="bg-yellow-brand p-12 text-black text-center shadow-2xl">
+            <div class="text-5xl font-black italic">50+</div>
+            <div class="font-bold uppercase tracking-widest text-xs mt-2">Corporate Partners</div>
+        </div>
+        <div class="bg-yellow-brand p-12 text-black text-center shadow-2xl">
+            <div class="text-5xl font-black italic">30+</div>
+            <div class="font-bold uppercase tracking-widest text-xs mt-2">NGO Allies</div>
+        </div>
+        <div class="bg-yellow-brand p-12 text-black text-center shadow-2xl">
+            <div class="text-5xl font-black italic">15+</div>
+            <div class="font-bold uppercase tracking-widest text-xs mt-2">Governmental Org</div>
+        </div>
+    </div>
+
+    <h2 class="text-4xl font-black uppercase italic mb-10">CORPORATE <span class="yellow-brand">ALLIES</span></h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="bg-[#111] border border-white/5 p-10 flex flex-col items-center justify-center group hover:border-yellow-400 transition">
+            <div class="text-3xl font-black yellow-brand mb-4">GHI</div>
+            <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 text-center">Global Health</p>
+        </div>
+        </div>
+</main>
+{% endblock %}

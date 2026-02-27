@@ -16,15 +16,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from impact import views  # Import the whole views module
+from impact import views  
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+
+    # Added the missing paths that were causing the "NoReverseMatch" error
+    path('team/', views.team, name='team'),
+    path('partners/', views.partners, name='partners'),
+    path('media/', views.media, name='media'),
+
+    # Placeholder paths for your dropdown links
+    path('about/', views.home, name='about'), 
+    path('programs/', views.home, name='programs'),
+    path('volunteer/', views.home, name='volunteer'),
+    path('events/', views.home, name='events'),
+    path('news/', views.home, name='news'),
+    path('donate/', views.home, name='donate'),
+    path('contact/', views.home, name='contact'),
 ]
 
-# This part is CRITICAL so your uploaded images actually show up
+# CRITICAL for images
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
