@@ -12,7 +12,6 @@ def team(request):
 
 def partners(request):
     partners = Partner.objects.all()
-    # You can also send counts to make those yellow boxes dynamic!
     stats = {
         'corp': Partner.objects.filter(category='CORPORATE').count(),
         'ngo': Partner.objects.filter(category='NGO').count(),
@@ -21,6 +20,16 @@ def partners(request):
     return render(request, 'partners.html', {'partners': partners, 'stats': stats})
 
 def media(request):
+    # Fetch videos and photos separately for organized sections
+    video_items = GalleryItem.objects.filter(media_type='VIDEO').order_by('-created_at')
+    photo_items = GalleryItem.objects.filter(media_type='PHOTO').order_by('-created_at')
+    
+    # We still keep the featured item option
     featured = GalleryItem.objects.filter(is_featured=True).first()
-    items = GalleryItem.objects.filter(is_featured=False).order_by('-created_at')
-    return render(request, 'media.html', {'featured': featured, 'items': items})
+
+    context = {
+        'videos': video_items,
+        'photos': photo_items,
+        'featured': featured,
+    }
+    return render(request, 'media.html', context)
