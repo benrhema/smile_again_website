@@ -17,9 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-$9!bhe%bxz8o485v&7cx&_&46p@en7^s=o9egqh6&-5otnx^*+'
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yourusername.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 # 1. Cleaned up Apps (Removed MongoDB backend)
 INSTALLED_APPS = [

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-black text-white min-h-screen font-sans selection:bg-yellow-400 selection:text-black">
+    
+    <section class="pt-20 pb-12 px-6 max-w-7xl mx-auto">
+        <h1 class="text-7xl font-black uppercase italic mb-4">MAKE A <span class="text-yellow-400">DONATION</span></h1>
+        <p class="text-gray-400 max-w-2xl mb-12">Your generous contribution helps us empower communities, provide essential services, and create lasting change for those who need it most.</p>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-yellow-400 p-8 text-black text-center">
+                <div class="text-4xl font-black">15,000+</div>
+                <div class="text-[10px] font-bold uppercase tracking-widest">Donors</div>
+            </div>
+            <div class="bg-yellow-400 p-8 text-black text-center">
+                <div class="text-4xl font-black">$2M+</div>
+                <div class="text-[10px] font-bold uppercase tracking-widest">Raised 2025</div>
+            </div>
+            <div class="bg-yellow-400 p-8 text-black text-center">
+                <div class="text-4xl font-black">98%</div>
+                <div class="text-[10px] font-bold uppercase tracking-widest">To Programs</div>
+            </div>
+            <div class="bg-yellow-400 p-8 text-black text-center">
+                <div class="text-4xl font-black">50,000+</div>
+                <div class="text-[10px] font-bold uppercase tracking-widest">Lives Changed</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-2 bg-[#111] p-10 border border-white/5">
+            <h2 class="text-3xl font-black uppercase italic mb-8">DONATION <span class="text-yellow-400">DETAILS</span></h2>
+            
+            <form method="POST" id="donationForm">
+                {% csrf_token %}
+                <input type="hidden" name="amount" id="selectedAmount" value="100">
+
+                <div class="mb-10">
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-4">Donation Type</label>
+                    <div class="flex gap-4">
+                        <button type="button" onclick="setType('ONE-TIME')" id="btn-one-time" class="flex-1 py-4 bg-yellow-400 text-black font-black uppercase italic">One-Time</button>
+                        <button type="button" onclick="setType('MONTHLY')" id="btn-monthly" class="flex-1 py-4 bg-black border border-white/20 text-white font-black uppercase italic hover:border-yellow-400">Monthly</button>
+                    </div>
+                    <input type="hidden" name="donation_type" id="donation_type" value="ONE-TIME">
+                </div>
+
+                <div class="mb-10">
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-4">Select Amount (USD)</label>
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <button type="button" onclick="setAmount('25', this)" class="amt-btn py-6 bg-black border border-white/10 text-2xl font-black hover:border-yellow-400 transition-colors">$25</button>
+                        <button type="button" onclick="setAmount('50', this)" class="amt-btn py-6 bg-black border border-white/10 text-2xl font-black hover:border-yellow-400 transition-colors">$50</button>
+                        <button type="button" onclick="setAmount('100', this)" class="amt-btn py-6 bg-black border border-white/10 text-2xl font-black hover:border-yellow-400 transition-colors text-yellow-400 border-yellow-400">$100</button>
+                        <button type="button" onclick="setAmount('250', this)" class="amt-btn py-6 bg-black border border-white/10 text-2xl font-black hover:border-yellow-400 transition-colors">$250</button>
+                        <button type="button" onclick="setAmount('500', this)" class="amt-btn py-6 bg-black border border-white/10 text-2xl font-black hover:border-yellow-400 transition-colors">$500</button>
+                        <button type="button" onclick="setAmount('1000', this)" class="amt-btn py-6 bg-black border border-white/10 text-2xl font-black hover:border-yellow-400 transition-colors">$1000</button>
+                    </div>
+                    <input type="number" name="custom_amount" placeholder="$ Custom Amount" class="w-full bg-black border border-white/10 p-4 focus:border-yellow-400 outline-none text-xl font-bold">
+                </div>
+
+                <div class="mb-10">
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-4">Your Information</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="text" name="first_name" placeholder="First Name" required class="bg-black border border-white/10 p-4 focus:border-yellow-400 outline-none">
+                        <input type="text" name="last_name" placeholder="Last Name" required class="bg-black border border-white/10 p-4 focus:border-yellow-400 outline-none">
+                    </div>
+                    <input type="email" name="email" placeholder="Email Address" required class="w-full bg-black border border-white/10 p-4 mb-4 focus:border-yellow-400 outline-none">
+                    <input type="text" name="phone" placeholder="Phone Number (Important for us to reach you)" required class="w-full bg-black border border-white/10 p-4 focus:border-yellow-400 outline-none">
+                </div>
+
+                <button type="submit" class="w-full bg-yellow-400 text-black font-black py-6 uppercase italic text-xl hover:bg-yellow-500 transition-colors">Complete Donation</button>
+            </form>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-yellow-400 p-10 text-black">
+                <div class="text-4xl mb-4">❤️</div>
+                <h3 class="text-2xl font-black uppercase italic mb-6">Your Impact</h3>
+                <ul class="space-y-6 text-sm font-bold">
+                    <li class="border-b border-black/10 pb-4">
+                        <span class="block text-lg font-black">$25</span>
+                        <span class="opacity-70">Provides school supplies for 5 children</span>
+                    </li>
+                    <li class="border-b border-black/10 pb-4">
+                        <span class="block text-lg font-black">$50</span>
+                        <span class="opacity-70">Feeds a family for one week</span>
+                    </li>
+                    <li>
+                        <span class="block text-lg font-black">$250</span>
+                        <span class="opacity-70">Funds job training for 2 individuals</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-[#111] p-10 border border-white/5">
+                <h3 class="text-xl font-black uppercase italic mb-6 text-yellow-400">Why Donate?</h3>
+                <ul class="space-y-4 text-xs font-bold uppercase tracking-widest text-gray-400">
+                    <li>■ 98% of donations go to programs</li>
+                    <li>■ Tax-deductible receipts provided</li>
+                    <li>■ Secure encrypted transactions</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 pb-20">
+        <div class="bg-[#111] p-10 border border-white/5">
+            <h2 class="text-3xl font-black uppercase italic mb-8">BANK TRANSFER <span class="text-yellow-400">DETAILS</span></h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <span class="block text-[10px] text-gray-500 font-black uppercase mb-2">Bank Name</span>
+                    <span class="text-xl font-black">ABC Bank</span>
+                </div>
+                <div>
+                    <span class="block text-[10px] text-gray-500 font-black uppercase mb-2">Account Name</span>
+                    <span class="text-xl font-black uppercase">Smile Again Org</span>
+                </div>
+                <div>
+                    <span class="block text-[10px] text-gray-500 font-black uppercase mb-2">Account Number</span>
+                    <span class="text-xl font-black">1234567890</span>
+                </div>
+                <div>
+                    <span class="block text-[10px] text-gray-500 font-black uppercase mb-2">Swift Code</span>
+                    <span class="text-xl font-black">ABCXXX123</span>
+                </div>
+            </div>
+            <p class="mt-8 text-sm text-gray-500 font-bold">Please send a confirmation email to <span class="text-yellow-400">donations@sao.org</span> after transfer.</p>
+        </div>
+    </section>
+</div>
+
+<script>
+    function setAmount(amt, element) {
+        document.getElementById('selectedAmount').value = amt;
+        // Visual feedback
+        const buttons = document.querySelectorAll('.amt-btn');
+        buttons.forEach(btn => btn.classList.remove('border-yellow-400', 'text-yellow-400'));
+        element.classList.add('border-yellow-400', 'text-yellow-400');
+    }
+
+    function setType(type) {
+        document.getElementById('donation_type').value = type;
+        const btnOne = document.getElementById('btn-one-time');
+        const btnMon = document.getElementById('btn-monthly');
+        
+        if(type === 'MONTHLY') {
+            btnMon.className = "flex-1 py-4 bg-yellow-400 text-black font-black uppercase italic";
+            btnOne.className = "flex-1 py-4 bg-black border border-white/20 text-white font-black uppercase italic hover:border-yellow-400";
+        } else {
+            btnOne.className = "flex-1 py-4 bg-yellow-400 text-black font-black uppercase italic";
+            btnMon.className = "flex-1 py-4 bg-black border border-white/20 text-white font-black uppercase italic hover:border-yellow-400";
+        }
+    }
+</script>
+{% endblock %}

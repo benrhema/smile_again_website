@@ -1,88 +1,164 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block extra_css %}
-<style>
-    /* Ensures the splash screen covers everything and the hero stays hidden initially */
-    #splash-screen { 
-        position: fixed; 
-        inset: 0; 
-        background: #000; 
-        z-index: 9999; 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        justify-content: center; 
-    }
-    #hero-content, #global-nav, #programs-section { 
-        opacity: 0; 
-    }
-</style>
-{% endblock %}
+{% block title %}Home | Smile Again Foundation{% endblock %}
 
 {% block content %}
-<div id="splash-screen">
-    <div id="splash-logo" class="text-8xl font-black yellow-brand italic scale-0">SAO</div>
-    <div id="splash-line" class="w-0 h-1 bg-yellow-brand mt-4"></div>
+<div id="splash" class="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden">
+    <div class="relative overflow-hidden">
+        <h1 class="text-[15vw] font-black italic leading-none tracking-tighter opacity-0 translate-y-20 splash-text">
+            SMILE <span class="yellow-brand">AGAIN</span>
+        </h1>
+        <div class="absolute bottom-0 left-0 w-full h-1 bg-yellow-brand origin-left scale-x-0 splash-line"></div>
+    </div>
 </div>
 
-<main id="hero-content" class="relative z-10 min-h-screen px-8 md:px-20 py-24 flex flex-col justify-center">
-    <h1 class="text-7xl md:text-9xl font-black italic uppercase tracking-tighter leading-none">
-        Empowering <br><span class="yellow-brand">Lives.</span>
-    </h1>
-    <p class="mt-10 text-gray-400 max-w-xl text-lg font-light leading-relaxed">
-        Sustainable community development through innovation and compassion for those who need it most.
-    </p>
-    <div class="mt-12 flex gap-6">
-        <button class="bg-yellow-brand text-black px-12 py-4 font-black uppercase text-sm hover:bg-white transition-colors">
-            Discover Our Mission
-        </button>
-    </div>
+<main id="main-content" class="relative z-10 opacity-0">
+
+    <section id="top" class="min-h-screen flex flex-col justify-center px-8 md:px-20 py-20">
+        <h1 class="text-[12vw] md:text-[10vw] font-black uppercase italic leading-[0.8] tracking-tighter mb-8">
+            {% if settings.hero_title %}
+                {{ settings.hero_title|safe }}
+            {% else %}
+                SMILE <br> <span class="yellow-brand">AGAIN</span>
+            {% endif %}
+        </h1>
+        <div class="flex flex-col md:flex-row gap-12 items-start">
+            <p class="max-w-xl text-gray-400 text-lg leading-relaxed font-light">
+                {{ settings.hero_description|default:"Empowering individuals with disabilities and those living in poverty through essential resources, education, and sustainable development." }}
+            </p>
+            <a href="#about" class="bg-yellow-brand text-black px-10 py-4 font-black uppercase text-sm hover:bg-white transition-all">Our Mission</a>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-8 md:px-20 bg-black">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 mb-24">
+            <div>
+                <h2 class="text-7xl font-black uppercase italic mb-8">ABOUT <span class="yellow-brand">US</span></h2>
+                <h3 class="yellow-brand text-2xl font-black uppercase mb-4">OUR MISSION</h3>
+                <p class="text-gray-400 leading-relaxed">{{ settings.mission_text }}</p>
+            </div>
+            <div class="pt-12 md:pt-24">
+                <h3 class="yellow-brand text-2xl font-black uppercase mb-4">OUR VISION</h3>
+                <p class="text-gray-400 leading-relaxed">{{ settings.vision_text }}</p>
+            </div>
+        </div>
+
+        <h3 class="text-4xl font-black uppercase italic mb-12">OUR <span class="yellow-brand">VALUES</span></h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
+            {% for value in values %}
+            <div class="border border-white/10 p-10 hover:border-yellow-400 transition-all group bg-[#0c0c0c]">
+                <div class="yellow-brand text-4xl mb-6">{{ value.icon }}</div>
+                <h4 class="font-black uppercase text-xl mb-4">{{ value.title }}</h4>
+                <p class="text-gray-500 text-sm">{{ value.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="bg-yellow-brand py-16 px-8 text-black grid grid-cols-1 md:grid-cols-3 gap-12 text-center -mx-8 md:-mx-20">
+            <div>
+                <h4 class="text-7xl font-black italic">{{ settings.lives_impacted }}</h4>
+                <p class="font-bold uppercase text-[10px] tracking-[0.3em] mt-2">Lives Impacted</p>
+            </div>
+            <div>
+                <h4 class="text-7xl font-black italic">{{ settings.programs_count }}</h4>
+                <p class="font-bold uppercase text-[10px] tracking-[0.3em] mt-2">Programs</p>
+            </div>
+            <div>
+                <h4 class="text-7xl font-black italic">{{ settings.countries_count }}</h4>
+                <p class="font-bold uppercase text-[10px] tracking-[0.3em] mt-2">Countries</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="programs" class="py-24 px-8 md:px-20">
+        <h2 class="text-7xl font-black uppercase italic mb-4">OUR <span class="yellow-brand">PROGRAMS</span></h2>
+        <p class="text-gray-400 max-w-2xl mb-16 font-light">We offer comprehensive programs designed to address the most pressing needs in our communities.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for division in divisions %}
+            <div class="bg-[#0c0c0c] p-12 border border-white/5 relative group hover:border-yellow-400 transition-all">
+                <div class="w-16 h-16 bg-yellow-brand flex items-center justify-center text-black mb-8">
+                    <span class="text-2xl font-bold">★</span>
+                </div>
+                <h3 class="text-2xl font-black uppercase mb-6">{{ division.title }}</h3>
+                <p class="text-gray-500 text-sm mb-8">{{ division.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="impact" class="py-24 px-8 md:px-20 bg-[#050505]">
+        <h2 class="text-7xl font-black uppercase italic mb-4">OUR <span class="yellow-brand">IMPACT</span></h2>
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-32">
+            <div class="bg-[#0c0c0c] p-8 text-center border border-white/5 hover:border-yellow-400 transition-all">
+                <h4 class="text-4xl font-black yellow-brand italic">50,000+</h4>
+                <p class="text-[9px] uppercase font-black text-white mt-2">Meals Served</p>
+            </div>
+            </div>
+    </section>
+
+    <section id="events" class="py-24 px-8 md:px-20 bg-black">
+        <h2 class="text-7xl font-black uppercase italic mb-4">UPCOMING <span class="yellow-brand">EVENTS</span></h2>
+        
+        {% if featured_event %}
+        <div class="bg-[#0c0c0c] grid grid-cols-1 md:grid-cols-2 border border-white/10 mb-12">
+            <div class="relative min-h-[400px] overflow-hidden group bg-gray-800">
+                {% if featured_event.image %}
+                    <img src="{{ featured_event.image.url }}" class="w-full h-full object-cover">
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-white/5 italic font-black text-6xl">EVENT_IMAGE</div>
+                {% endif %}
+            </div>
+            <div class="p-16 flex flex-col justify-center bg-yellow-brand text-black">
+                <h3 class="text-5xl font-black uppercase italic leading-none mb-10">{{ featured_event.title }}</h3>
+                <p class="text-lg font-medium mb-10">{{ featured_event.description }}</p>
+                <div class="text-[12px] font-black uppercase tracking-[0.2em] space-y-4 mb-12 border-l-4 border-black pl-8">
+                    <p>📅 {{ featured_event.date }}</p>
+                    <p>📍 {{ featured_event.location }}</p>
+                </div>
+                <button class="bg-black text-white px-12 py-6 font-black uppercase text-sm self-start hover:bg-white hover:text-black transition-all">Register Now</button>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+
+    <section id="news" class="py-24 px-8 md:px-20">
+        <h2 class="text-7xl font-black uppercase italic mb-4">LATEST <span class="yellow-brand">NEWS</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {% for article in news %}
+            <div class="group cursor-pointer">
+                <div class="relative h-[400px] overflow-hidden bg-gray-900 mb-8">
+                    <div class="absolute top-6 left-6 z-20 bg-yellow-brand text-black font-black px-4 py-1 text-[10px] uppercase">{{ article.category }}</div>
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                    {% else %}
+                        <div class="w-full h-full bg-gray-800 flex items-center justify-center text-white/5 italic font-black text-6xl">NEWS_IMAGE</div>
+                    {% endif %}
+                </div>
+                <div class="flex items-center gap-4 text-gray-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">
+                    <span>📅 {{ article.date }}</span>
+                    <span class="w-8 h-px bg-white/10"></span>
+                    <span>By {{ article.author }}</span>
+                </div>
+                <h3 class="text-4xl font-black uppercase italic mb-6 group-hover:text-yellow-400 transition-colors">{{ article.title }}</h3>
+                <p class="text-gray-500 leading-relaxed mb-8">{{ article.summary }}</p>
+                <a href="#" class="text-[11px] font-black uppercase tracking-widest border-b-2 border-yellow-400 pb-1">Read More</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
 </main>
 
-<section id="programs-section" class="px-8 md:px-20 py-32 bg-[#0a0a0a]">
-    <div class="flex items-center gap-4 mb-16">
-        <div class="h-px w-20 bg-yellow-400"></div>
-        <h2 class="text-3xl font-black uppercase italic">EMPOWERING <span class="yellow-brand">PROGRAMS</span></h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {% for division in divisions %}
-        <div class="border border-white/10 p-10 hover:border-yellow-400 transition-all duration-500 group">
-            <div class="yellow-brand text-4xl mb-6">
-                <i class="fas fa-{{ division.icon_name }}"></i> 
-            </div>
-            <h3 class="text-2xl font-black uppercase italic mb-4">{{ division.title }}</h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-8">
-                {{ division.description }}
-            </p>
-            <a href="{% url 'programs' %}" class="text-[10px] font-bold tracking-[0.2em] uppercase border-b border-yellow-400 pb-1 hover:text-yellow-400 transition-colors">
-                Learn More
-            </a>
-        </div>
-        {% empty %}
-        <div class="col-span-full py-20 border border-dashed border-white/10 text-center">
-            <p class="text-gray-600 italic">Our programs are currently being updated in the Admin panel. Check back shortly!</p>
-        </div>
-        {% endfor %}
-    </div>
-</section>
-{% endblock %}
-
-{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
-    // GSAP Animation Sequence
-    const tl = gsap.timeline();
-    
-    tl.to("#splash-logo", { scale: 1, duration: 1, ease: "back.out(1.7)" })
-      .to("#splash-line", { width: "200px", duration: 0.8, ease: "power2.inOut" })
-      .to("#splash-screen", { y: "-100%", duration: 1, ease: "power4.inOut", delay: 1 })
-      // Fade in the Nav, Hero, and Programs section together
-      .to("#global-nav, #hero-content, #programs-section", { 
-          opacity: 1, 
-          y: 0, 
-          duration: 1, 
-          stagger: 0.2,
-          ease: "power2.out" 
-      }, "-=0.5");
+    document.addEventListener('DOMContentLoaded', () => {
+        const tl = gsap.timeline();
+        tl.to('.splash-text', { opacity: 1, y: 0, duration: 1, ease: 'expo.out' })
+          .to('.splash-line', { scaleX: 1, duration: 0.8, ease: 'power2.inOut' }, '-=0.5')
+          .to('#splash', { y: '-100%', duration: 1, ease: 'expo.inOut', delay: 0.5 })
+          .to('#main-content', { opacity: 1, duration: 0.5 }, '-=0.5');
+    });
 </script>
 {% endblock %}

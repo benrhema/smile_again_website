@@ -44,7 +44,9 @@
                 <a href="{% url 'team' %}" class="hover:text-yellow-400 transition {% if request.resolver_match.url_name == 'team' %}yellow-brand{% endif %}">OUR TEAM</a>
                 <a href="{% url 'partners' %}" class="hover:text-yellow-400 transition {% if request.resolver_match.url_name == 'partners' %}yellow-brand{% endif %}">OUR PARTNERS</a>
                 <a href="{% url 'media' %}" class="hover:text-yellow-400 transition {% if request.resolver_match.url_name == 'media' %}yellow-brand{% endif %}">MEDIA GALLERY</a>
-                <button class="bg-yellow-brand text-black px-8 py-3 font-black text-[12px] hover:bg-white transition">DONATE NOW</button>
+                <a href="{% url 'donate' %}" class="bg-yellow-brand text-black px-8 py-3 font-black text-[12px] hover:bg-white transition inline-block">
+    DONATE NOW
+</a>
             </div>
         </div>
     </nav>

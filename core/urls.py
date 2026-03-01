@@ -28,6 +28,7 @@ urlpatterns = [
     path('team/', views.team, name='team'),
     path('partners/', views.partners, name='partners'),
     path('media/', views.media, name='media'),
+    path('donate/', views.donate, name='donate'),
 
     # Placeholder paths for your dropdown links
     path('about/', views.home, name='about'), 
@@ -35,7 +36,6 @@ urlpatterns = [
     path('volunteer/', views.home, name='volunteer'),
     path('events/', views.home, name='events'),
     path('news/', views.home, name='news'),
-    path('donate/', views.home, name='donate'),
     path('contact/', views.home, name='contact'),
 ]
 
